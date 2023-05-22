@@ -1,30 +1,45 @@
 #include "gpsComm.h"
 
-// TEST
-
 GPS_Data gpsData;
+
+int GPS_init(int baud, double timeout_s)
+{
+        if(rc_uart_init(GPS_BUS, baud, timeout_s, 0, 1, 0))
+                printf("Failed to initialize GPS uart");
+
+        return 0;
+}
 
 int GPS_readData(uint8_t* buffer, int bufferSize)
 {
-        for(int i = 0; i < bufferSize; i++)
+        if(rc_uart_bytes_available(GPS_BUS))
         {
-                // This state machine sets gpsData.stage to the return of GPS_stageShouldChange
-                switch(gpsData.stage)
+                bufferSize = rc_uart_bytes_available(GPS_BUS);
+                memset(buffer, 0, sizeof(buffer));
+
+                rc_uart_read_bytes(GPS_BUS, buffer, bufferSize);
+                rc_uart_flush(GPS_BUS);
+
+                for(int i = 0; i < bufferSize; i++)
                 {
-                case PREAMBLE_1:
-                        if(buffer[i] == PREAMBLE_SYNC_CHAR_1)
-                                GPS_stageShouldChange();
-                        break;
-                case PREAMBLE_2:
-                        if(buffer[i] == PREAMBLE_SYNC_CHAR_1)
-                                GPS_stageShouldChange();
-                        break;
-                case MESSAGE_ID:
-                        break;
-                case LENGTH:
-                        break;
-                case PAYLOAD:
-                        break;
+                        // This state machine sets gpsData.stage to the return of GPS_stageShouldChange
+                        switch(gpsData.stage)
+                        {
+                        case PREAMBLE_1:
+                                if(buffer[i] == PREAMBLE_SYNC_CHAR_1)
+                                        GPS_stageShouldChange();
+                                break;
+                        case PREAMBLE_2:
+                                if(buffer[i] == PREAMBLE_SYNC_CHAR_1)
+                                        GPS_stageShouldChange();
+                                break;
+                        case MESSAGE_ID:
+                                break;
+                        case LENGTH:
+                                break;
+                        case PAYLOAD:
+                                break;
+                        }
                 }
         }
 }
