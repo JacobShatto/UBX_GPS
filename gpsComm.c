@@ -2,6 +2,8 @@
 
 #include <rc/uart.h>
 
+GPS_Frame gpsFrame;
+
 int GPS_init()
 {
         gpsHeader.buffer = malloc(GPS_BUFFER_SIZE);
@@ -18,13 +20,8 @@ int GPS_readData()
         {
                 if (buffer[2] == MESSAGE_CLASS && buffer[3] == MESSAGE_ID)
                 {
-                        
+                        gpsFrame = *(GPS_Frame*)buffer;
                 }
                 rc_uart_flush(GPS_BUS);
         }
-}
-
-void GPS_allocatePayloadMemory()
-{
-        gpsData.data = malloc(gpsPacket.header.length);
 }
