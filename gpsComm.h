@@ -17,10 +17,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/**
- * gpsComm.h
- */
-
  /**
   * GPS comm defines
  */
@@ -160,7 +156,9 @@ typedef struct gps_body {
 
 
     uint8_t checksum[2]; // checksum of payload
-} GPS_frame;
+} GPS_Frame;
+
+extern GPS_Frame gpsFrame;
 
 uint8_t buffer[GPS_BUFFER_SIZE];
 
@@ -178,18 +176,6 @@ int GPS_readData();
 */
 int GPS_init();
 
-/**
- * @brief Function to allocate space fot the incoming message
- */
-void GPS_allocatePayloadMemory();
 
-/**
- * @brief Function to update the gps stage.
- *
- * Usage: Only use when
- *
- * @return Stage the gps should be at
- */
-void GPS_stageShouldChange();
 
 
