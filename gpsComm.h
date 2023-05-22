@@ -78,7 +78,8 @@ typedef struct gps_body {
      */
     uint8_t fixtype; // fix status flags
     
-
+    uint8_t flags;
+/**
     bool gnssFixOk; // 1 = valid fix within DOP and accuracy masks
     bool diffSoln; // 1 = differential corrections were applied
 
@@ -90,7 +91,7 @@ typedef struct gps_body {
      * 3 = tracking
      * 4 = power optimized tracking
      * 5 = inactive 
-     */
+     
     bool psmState[3];
 
 
@@ -101,13 +102,15 @@ typedef struct gps_body {
      * 0 = no carrier phase range solution
      * 1 = carrier phase range solution with floating ambiguities
      * 2 = carrier phase range solution with fixed ambiguities
-     */
+     
     bool carrSoln[2];
-
+*/
+    uint8_t flags2;
+/**
     bool confirmedAvai; // 1 = information about validity comfirmation is available
     bool confirmedDate; // 1 = UTC date validity could be confirmed
     bool confirmedTime; // 1 = UTC time of day could be confirmed
-
+*/
     uint8_t sumSv; // number of satellites used in Nav solution
     uint32_t lon; // longitutde
     uint32_t lat; // latitude
@@ -126,6 +129,9 @@ typedef struct gps_body {
     uint32_t headAcc; // heading accuracy estimate
     uint16_t pDop; // position diution of precision
 
+
+    uint16_t flags3;
+/**
     bool invalidLlh; // 1 = invalid longitude,latitude, height and hMSL
 
     /**
@@ -143,10 +149,10 @@ typedef struct gps_body {
      * 10 = 60 <= age < 90
      * 11 = 90 <= age < 120
      * >=12 = age >= 120
-     */
+     *
     bool lastCorrectionAge[4]; 
-
-    bool reserved0[4]; // reserved
+*/
+    uint8_t reserved0[4]; // reserved
 
     uint32_t headVeh; // 2D heading of vehicle
     uint16_t magDec; // magnetice declination
