@@ -1,68 +1,34 @@
 #include "gpsComm.h"
 
-GPS_Data gpsData;
+#include <rc/uart.h>
 
-int GPS_init(int baud, double timeout_s)
+GPS_Packet gpsPacket;
+
+int GPS_init()
 {
-        if(rc_uart_init(GPS_BUS, baud, timeout_s, 0, 1, 0))
-                printf("Failed to initialize GPS uart");
+        gpsHeader.buffer = malloc(GPS_BUFFER_SIZE);
+        gpsHeader.messageID = 0;
 
-        return 0;
+        return rc_uart_init(GPS_BUS, GPS_BAUDRATE, GPS_TIMEOUT, 0, 1, 0);
 }
 
-int GPS_readData(uint8_t* buffer, int bufferSize)
+int GPS_readData()
 {
-        if(rc_uart_bytes_available(GPS_BUS))
+        if (rc_uart_bytes_available(GPS_BUS) == 6 && gpsPacket.state = WAITING_HEADER)
         {
-                bufferSize = rc_uart_bytes_available(GPS_BUS);
-                memset(buffer, 0, sizeof(buffer));
-
-                rc_uart_read_bytes(GPS_BUS, buffer, bufferSize);
-                rc_uart_flush(GPS_BUS);
-
-                for(int i = 0; i < bufferSize; i++)
-                {
-                        // This state machine sets gpsData.stage to the return of GPS_stageShouldChange
-                        switch(gpsData.stage)
-                        {
-                        case PREAMBLE_1:
-                                if(buffer[i] == PREAMBLE_SYNC_CHAR_1)
-                                        GPS_stageShouldChange();
-                                break;
-                        case PREAMBLE_2:
-                                if(buffer[i] == PREAMBLE_SYNC_CHAR_1)
-                                        GPS_stageShouldChange();
-                                break;
-                        case MESSAGE_ID:
-                                break;
-                        case LENGTH:
-                                break;
-                        case PAYLOAD:
-                                break;
-                        }
-                }
+                gpsPacket.bufferSize = rc_uart_bytes_available(GPS_BUS);
+                memset();
+                gpsPacket.header = *(GPS_Header*)gpsPacket.buffer;
+                GPS_alocatePayloadMemory();
+                gpsPacket.state = WAITING_PAYLOAD;
+        }
+        else if (rc_uart_bytes_available(GPS_BUS) == gpsPacket.header.length)
+        {
+                
         }
 }
 
 void GPS_allocatePayloadMemory()
 {
-        gpsData.payload = malloc(gpsData.length);
-}
-
-void GPS_stageShouldChange()
-{
-        // This state machine does not directly affect gpsData.stage
-        switch(gpsData.stage)
-        {
-                case PREAMBLE_1:
-                        break;
-                case PREAMBLE_2:
-                        break;
-                case MESSAGE_ID:
-                        break;
-                case LENGTH:
-                        break;
-                case PAYLOAD:
-                        break;
-        }
+        gpsData.data = malloc(gpsPacket.header.length);
 }
