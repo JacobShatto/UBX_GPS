@@ -6,46 +6,65 @@
  * gpsComm.h
  */
 
+ /**
+  * GPS comm defines
+ */
 #define PREAMBLE_SYNC_CHAR_1 0xb5
 #define PREAMBLE_SYNC_CHAR_2 0x62
 
+ /**
+  * UART defines
+ */
+#define GPS_BUFFER_SIZE 64
+#define GPS_TIMEOUT 0.5
+#define GPS_BAUDRATE 115200
+#define GPS_BUS 2
 
  /**
   * Represents which part of the gpsData is currently being recieved.
   */
-enum _GPSStage {
-    PREAMBLE_1,
-    PREAMBLE_2,
-    MESSAGE_ID,
-    LENGTH,
-    PAYLOAD,
-    CHECKSUM_A,
-    CHECKSUM_B,
-    PACKET_COMPLETE
+enum _GPSState
+{
+    WAITING_HEADER,
+    WAITING_PAYLOAD,
 };
-typedef enum _GPSStage GPS_Stage;
+typedef enum _GPSState GPS_State;
+
+enum _PacketType {
+    DEFAULT
+};
+typedef enum _PacketType PacketType;
 
 /*
  * Each part of the gps data used in the UBX protocol
  */
-typedef struct gps_Data {
-    uint16_t messageID;
+typedef struct gps_Header
+{
+    uint8_t syncChar1;
+    uint8_t syncChar2;
+    uint8_t messageClass;
+    uint8_t messageID;
     uint16_t length;
-    uint8_t* payload;
-    GPS_Stage stage;
-    uint32_t checkSum_A;
-    uint32_t checkSum_B;
 
-} GPS_Data;
+} GPS_Header;
 
-extern GPS_Data gpsData;
+typedef struct gps_Packet
+{
+    GPS_Header header;
+    int bufferSize;
+    uint8_t buffer[GPS_BUFFER_SIZE];
+    uint8_t* data;
+    uint8_t checksum[2];
+}
+
+extern GPS_Packet gpsPacket;
 
 /**
- * Function to get the size of the payload in bytes
+ * Function to initialize GPS communication
  *
- * @return gpsData.length (bytes)
- */
-inline uint16_t GPS_getPayloadSize() { return gpsData.length; }
+ * @return 0 on success -1 on failure
+*/
+int GPS_init();
 
 /**
  * Function to allocate space fot eht incoming message
