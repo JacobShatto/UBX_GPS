@@ -2,8 +2,8 @@
  * @file gpsComm.h
  * @author Jacob Shatto and Andrew McGrellis
  * 
- * @brief Implementation of u-blox M10 SPG 5.00, based on the following documetation:
- * https://content.u-blox.com/sites/default/files/u-blox%20M10-SPG-5.00_InterfaceDescription_UBX-20053845.pdf
+ * @brief Implementation of u-blox M10 SPG 5.00, for M10 GPS modules 
+ * Based on the following documetation: https://content.u-blox.com/sites/default/files/u-blox%20M10-SPG-5.00_InterfaceDescription_UBX-20053845.pdf
  * 
  * @date 2023-05-22
  * 
@@ -40,7 +40,6 @@
  * GPS data frame
  * 
  */
-
 typedef struct gps_body {
 
     uint8_t syncChar1; // start bits of frame
@@ -160,26 +159,26 @@ typedef struct gps_body {
 uint8_t buffer[GPS_BUFFER_SIZE];
 
 /**
- * Function to read and parse data
+ * @brief Function to read and parse GPS data
  *
  * @return 0 on success -1 on failure
  */
 int GPS_readData();
 
 /**
- * Function to initialize GPS communication
+ * @brief Function to initialize GPS communication
  *
  * @return 0 on success -1 on failure
 */
 int GPS_init();
 
 /**
- * Function to allocate space fot eht incoming message
+ * @brief Function to allocate space fot the incoming message
  */
 void GPS_allocatePayloadMemory();
 
 /**
- * Function to update the gps stage.
+ * @brief Function to update the gps stage.
  *
  * Usage: Only use when
  *
