@@ -10,13 +10,10 @@
  /**
   * GPS comm defines
  */
-#define PREAMBLE_SYNC_CHAR_1 0xb5
-#define PREAMBLE_SYNC_CHAR_2 0x62
-
 #define MESSAGE_CLASS 0x01
 #define MESSAGE_ID 0x07
 
-#define PACKAGE_LENGTH 94
+#define PACKAGE_LENGTH 98
 
  /**
   * UART defines
