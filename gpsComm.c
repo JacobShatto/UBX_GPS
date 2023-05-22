@@ -23,5 +23,9 @@ int GPS_readData()
                         gpsFrame = *(GPS_Frame*)buffer;
                 }
                 rc_uart_flush(GPS_BUS);
+                return 0;
         }
+        return -1;
 }
+
+int 

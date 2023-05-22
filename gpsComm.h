@@ -10,7 +10,6 @@
  * @copyright Copyright (c) 2023
  * 
  */
-// test
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -125,7 +124,7 @@ typedef struct gps_body {
     uint32_t headMot; // 2D heading of motion
     uint32_t sAcc; // speed accuracy estimate
     uint32_t headAcc; // heading accuracy estimate
-    uint16_t pDop; // position diution of precision
+    uint16_t pDop; // position dilution of precision
 
 
     uint16_t flags3;
