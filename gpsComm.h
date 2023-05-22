@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 /**
  * GPS data frame
@@ -147,31 +148,20 @@ typedef struct gps_body {
 #define PREAMBLE_SYNC_CHAR_1 0xb5
 #define PREAMBLE_SYNC_CHAR_2 0x62
 
+#define MESSAGE_CLASS 0x01
+#define MESSAGE_ID 0x07
+
+#define PACKAGE_LENGTH 94
+
  /**
   * UART defines
  */
-#define GPS_BUFFER_SIZE 64
+#define GPS_BUFFER_SIZE 128
 #define GPS_TIMEOUT 0.5
 #define GPS_BAUDRATE 115200
 #define GPS_BUS 2
 
 uint8_t buffer[GPS_BUFFER_SIZE];
-
- /**
-  * Represents which part of the gpsData is currently being recieved.
-  */
-enum _GPSState
-{
-    WAITING_HEADER,
-    WAITING_PAYLOAD,
-};
-typedef enum _GPSState GPS_State;
-
-enum _PacketType {
-    DEFAULT
-};
-typedef enum _PacketType PacketType;
-
 
 /**
  * Function to read and parse data
