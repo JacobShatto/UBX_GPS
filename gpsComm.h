@@ -8,7 +8,70 @@
  */
 
 typedef struct gps_body {
-    uint8_t* payload;
+    uint8_t syncChar1;
+    uint8_t syncChar2;
+    uint8_t messageClass;
+    uint8_t messageID;
+    uint16_t length;
+
+    
+    uint32_t iTOW;
+
+    uint16_t year;
+    uint8_t month;
+    uint8_t day;
+    uint8_t hour;
+    uint8_t min;
+    uint8_t sec;
+
+    bool validDate;
+    bool validTime;
+    bool fullyResolved;
+    bool validMag;
+
+    uint32_t tAcc;
+    uint32_t nano;
+
+    uint8_t fixtype;
+    
+    bool gnssFixOk;
+    bool diffSoln;
+    bool psmState[3];
+    bool headVehValid;
+    bool carrSoln[2];
+
+    bool confirmedAvai;
+    bool confirmedDate;
+    bool confirmedTime;
+
+    uint8_t sumSv;
+    uint32_t lon;
+    uint32_t lat;
+    uint32_t height;
+
+    uint32_t hMSL;
+    uint32_t hACC;
+    uint32_t vAcc;
+    uint32_t velN;
+    uint32_t velE;
+    uint32_t velD;
+    uint32_t gSpeed;
+
+    uint32_t headMot;
+    uint32_t sAcc;
+    uint32_t headAcc;
+    uint16_t pDop;
+
+    bool invalidLlh;
+    bool lastCorrectionAge[4];
+
+    bool reserved0[4];
+
+    uint32_t headVeh;
+    uint16_t magDec;
+    uint16_t magAcc;
+
+
     uint8_t checksum[2];
 } GPS_Body;
 
@@ -60,11 +123,11 @@ typedef struct gps_Header
 
 } GPS_Header;
 
-typedef struct gps_Packet
+struct gps_Packet
 {
     GPS_Header header;
     GPS_Body body;
-}
+};
 
 extern GPS_Packet gpsPacket;
 
