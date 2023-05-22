@@ -55,11 +55,13 @@ typedef struct gps_body {
     uint8_t min;
     uint8_t sec;
 
+    uint8_t valid;
+    /**
     bool validDate; // 1 = valid UTC date
     bool validTime; // 1 = valid UTC time of day
     bool fullyResolved; // 1 = UTC time of day has been fully resolved (no seconds uncertainty)
     bool validMag; // 1 = valid magnetic declination
-
+*/
     uint32_t tAcc; // time accuracy estimate
     uint32_t nano;
 
