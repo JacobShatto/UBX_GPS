@@ -1,5 +1,7 @@
 #include "gpsComm.h"
 
+// TEST
+
 GPS_Data gpsData;
 
 int GPS_readData(uint8_t* buffer, int bufferSize)
