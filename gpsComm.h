@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
  /**
   * GPS comm defines
@@ -153,22 +154,6 @@ typedef struct gps_body {
 
 
 uint8_t buffer[GPS_BUFFER_SIZE];
-
- /**
-  * Represents which part of the gpsData is currently being recieved.
-  */
-enum _GPSState
-{
-    WAITING_HEADER,
-    WAITING_PAYLOAD,
-};
-typedef enum _GPSState GPS_State;
-
-enum _PacketType {
-    DEFAULT
-};
-typedef enum _PacketType PacketType;
-
 
 /**
  * @brief Function to read and parse GPS data
