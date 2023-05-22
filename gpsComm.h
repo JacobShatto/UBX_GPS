@@ -17,23 +17,27 @@
 #include <stdio.h>
 #include <string.h>
 
+/**
+ * gpsComm.h
+ */
+
  /**
   * GPS comm defines
  */
-#define PREAMBLE_SYNC_CHAR_1 0xb5
-#define PREAMBLE_SYNC_CHAR_2 0x62
+#define MESSAGE_CLASS 0x01
+#define MESSAGE_ID 0x07
+#define PACKAGE_LENGTH 98
 
  /**
   * UART defines
  */
-#define GPS_BUFFER_SIZE 64
+#define GPS_BUFFER_SIZE 128
 #define GPS_TIMEOUT 0.5
 #define GPS_BAUDRATE 115200
 #define GPS_BUS 2
 
-
 /**
- * @brief GPS data frame
+ * GPS data frame
  * 
  */
 typedef struct gps_body {
@@ -151,7 +155,6 @@ typedef struct gps_body {
 
     uint8_t checksum[2]; // checksum of payload
 } GPS_frame;
-
 
 uint8_t buffer[GPS_BUFFER_SIZE];
 
